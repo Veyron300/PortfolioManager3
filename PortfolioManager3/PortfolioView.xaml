@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="PortfolioManager3.PortfolioView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PortfolioManager3"
+             xmlns:helpers="clr-namespace:PortfolioManager3.WPFUtility"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:PortfolioViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <TextBlock x:Name="PortfoliosLabeltextBlock" 
+			HorizontalAlignment="Left" 
+			Margin="50,15,0,0" 
+            TextWrapping="Wrap" 
+			Text="Portfolios" 
+            FontSize="20" 
+            Foreground="DarkOrange"       
+			VerticalAlignment="Top"/>
+        <Button x:Name="NewPortfolioButton" 
+			Content="New Portfolio"    
+			HorizontalAlignment="Left"
+			Margin="150,20,0,0" 
+			VerticalAlignment="Top" 
+            Command="{Binding AddNewPortfolioCommand}"
+            Background="LightGray"
+            Foreground="Black"
+			Width="100"/>
+        <Button x:Name="DeletePortfolioButton" 
+			Content="Delete Portfolio"    
+			HorizontalAlignment="Left"
+			Margin="270,20,0,0" 
+			VerticalAlignment="Top" 
+            Command="{Binding DeletePortfolioCommand}"    
+            Background="LightGray"
+            Foreground="Black"
+			Width="100"/>
+        <ListView x:Name="PortfoliosListBox" 
+			ItemsSource="{Binding Portfolios}"
+			HorizontalAlignment="Left" 
+			Height="250" 
+			Margin="50,50,0,0" 
+			VerticalAlignment="Top" 
+			Width="325"
+            Background="DarkGray"
+                  Foreground="Black"
+                 BorderBrush="Black"
+                 SelectedItem="{Binding SelectedPortfolio, Mode=TwoWay}"
+                 helpers:ListViewSelectionChangedBehavior.Command="{Binding OnPortfolioChanged}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding PortfolioName}"  />
+                    <GridViewColumn Width="100" Header="Benchmark"  DisplayMemberBinding="{Binding BenchmarkInstrument}" />
+                    <GridViewColumn Width="100" Header="Inception Date"  DisplayMemberBinding="{Binding InceptionDate,StringFormat={}{0:MM/dd/yyyy}}" />
+                </GridView>
+            </ListView.View>
+
+
+        </ListView>
+    </Grid>
+</UserControl>

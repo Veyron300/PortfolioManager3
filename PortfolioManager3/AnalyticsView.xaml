@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="PortfolioManager3.AnalyticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PortfolioManager3"
+             xmlns:converters="clr-namespace:PortfolioManager3.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:AnalyticsViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <converters:ProfitAndReturnConverter x:Key="profitAndReturnConverter" />
+        <DataTemplate x:Key="ProfitAndReturnColorTemplate" DataType="ControlTemplate">
+            <TextBlock x:Name="profitTextBlock"
+                   Text="{Binding PortfolioProfit, StringFormat=$#\,##0.00;$(#\,##0.00)}"
+                   Height="30" 
+                   Width="150"
+                   Foreground="DarkGray"
+                   FontSize="20"/>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Profit, Converter={StaticResource profitAndReturnConverter}}" Value="True" >
+                    <Setter TargetName="profitTextBlock" Property="Foreground" Value="Green" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Profit, Converter={StaticResource profitAndReturnConverter}}" Value="False" >
+                    <Setter TargetName="profitTextBlock" Property="Foreground" Value="Red" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+
+        </DataTemplate>
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock x:Name="profitLabel" Grid.Row="0" 
+                   Text="Portfolio Profit" 
+                   Margin="10,40,10,10" 
+                   Height="20" 
+                   Width="130"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Foreground="DarkGray"
+                   FontSize="15"/>
+        <TextBlock x:Name="profitTextBlock" Grid.Row="0" 
+                   Text="{Binding PortfolioProfit, StringFormat=$#\,##0.00;$(#\,##0.00)}"
+                   Margin="160,40,10,10" 
+                   Height="20" 
+                   Width="150"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   FontSize="15">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PortfolioProfit, Converter={StaticResource profitAndReturnConverter}}" Value="True" >
+                            <Setter Property="Foreground" Value="LimeGreen" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PortfolioProfit, Converter={StaticResource profitAndReturnConverter}}" Value="False" >
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock x:Name="returnLabel" Grid.Row="0" 
+                   Text="Wtd Portfolio Return" 
+                   Margin="10,60,10,10" 
+                   Height="20" 
+                   Width="140"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Foreground="DarkGray"
+                   FontSize="15"/>
+
+        <TextBlock x:Name="returnTextBlock" Grid.Row="0" 
+                   Text="{Binding PortfolioReturn, StringFormat=\{0\}%}"
+                   Margin="160,60,10,10" 
+                   Height="20" 
+                   Width="150"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   
+                   FontSize="15">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PortfolioReturn, Converter={StaticResource profitAndReturnConverter}}" Value="True" >
+                            <Setter Property="Foreground" Value="LimeGreen" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PortfolioReturn, Converter={StaticResource profitAndReturnConverter}}" Value="False" >
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+
+        <TextBlock x:Name="textBlock" 
+                   HorizontalAlignment="Left" 
+                   Margin="10,10,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="Analytics" 
+                   Height="30"
+                   Width="100"
+                   FontSize="20"
+                   Foreground="DarkOrange"
+                   VerticalAlignment="Top"/>
+
+        <Canvas Name="returnGraph" 
+                
+                Background="Gray"
+                Grid.Row="1"
+                Width="375"
+                Height="200"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left" 
+                Margin="0,0,0,0">
+
+        </Canvas>
+        <TextBlock x:Name="textBlock1"
+                   HorizontalAlignment="Left" 
+                   Margin="10,160,0,0" Grid.Row="0" 
+                   TextWrapping="Wrap" 
+                   Text="Daily Percent Return" 
+                   VerticalAlignment="Top"
+                   Foreground="DarkOrange">
+           
+        </TextBlock>
+
+
+
+
+
+    </Grid>
+</UserControl>
